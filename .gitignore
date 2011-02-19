@@ -1,0 +1,12 @@
+﻿.svn*
+obj/
+bin/
+*.suo
+*.user
+Log/
+log/
+*.db
+.metadata
+.classpath
+.project
+.settings
