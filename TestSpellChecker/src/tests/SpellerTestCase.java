@@ -1,5 +1,6 @@
 package tests;
 
+import com.digitalchaos.spell.SimpleSpeller;
 import com.digitalchaos.spell.Speller;
 
 import junit.framework.TestCase;
@@ -15,10 +16,14 @@ public class SpellerTestCase extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		speller =  new Speller();
+		
+		
 		correntWord = "correct";
 		wrongWord = "noncorrect";
 		
+		SimpleSpeller simpleSpeller =  new SimpleSpeller();
+		simpleSpeller.addCorrectWord(correntWord);
+		speller = simpleSpeller;
 	}
 	
 	public void testCorrectlyWord()

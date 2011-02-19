@@ -1,9 +1,7 @@
 package com.digitalchaos.spell;
 
-public class Speller 
-{
-	 public boolean checkText(String word)
-	 {
-		 return false;
-	 }
+public interface Speller {
+
+	public abstract boolean checkText(String word);
+
 }
