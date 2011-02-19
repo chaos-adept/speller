@@ -1,42 +1,49 @@
 package tests;
 
-import com.digitalchaos.spell.SimpleSpeller;
 import com.digitalchaos.spell.Speller;
 
 import junit.framework.TestCase;
 
-public class SpellerTestCase extends TestCase {
+public abstract class SpellerTestCase extends TestCase {
 
-	
 	Speller speller;
-	
-	String correntWord;
-	String wrongWord;
-	
+	protected String correntWord;
+
+	protected abstract Speller createSpeller();
+
+	protected String wrongWord;
+
+	public SpellerTestCase() {
+		super();
+	}
+
+	public SpellerTestCase(String name) {
+		super(name);
+	}
+
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		
+		initTexts();
 		
-		correntWord = "correct";
-		wrongWord = "noncorrect";
-		
-		SimpleSpeller simpleSpeller =  new SimpleSpeller();
-		simpleSpeller.addCorrectWord(correntWord);
-		speller = simpleSpeller;
+		speller = createSpeller();
 	}
-	
-	public void testCorrectlyWord()
-	{
+
+	public void testCorrectlyWord() {
 		boolean result = speller.checkText(correntWord);
 		assertTrue( result );
 	}
-	
-	public void testWrongWord()
-	{
+
+	public void testWrongWord() {
 		boolean result = speller.checkText(wrongWord);
 		assertFalse( result );
 	}
-	
-	
+
+	protected void initTexts()
+	{
+		correntWord = "correct";
+		wrongWord = "noncorrect";
+	}
+
 }
