@@ -10,8 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
-import com.digitalchaos.spell.SimpleSpeller;
 import com.digitalchaos.spell.Speller;
+import com.digitalchaos.spell.spellers.simplespeller.SimpleSpeller;
 
 public class SpellerFrame extends JFrame {
 
