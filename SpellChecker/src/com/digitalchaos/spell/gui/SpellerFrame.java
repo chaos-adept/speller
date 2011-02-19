@@ -11,23 +11,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
 import com.digitalchaos.spell.Speller;
-import com.digitalchaos.spell.spellers.simplespeller.SimpleSpeller;
 
 public class SpellerFrame extends JFrame {
 
-	public static void main(String[] args) {
-		
-		SimpleSpeller speller = new SimpleSpeller();
-		speller.addCorrectWord("word");
-		JFrame frame = new SpellerFrame( speller );
-		
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		frame.pack();
-
-		frame.setVisible(true);		
-		
-	}
 	
 	Speller speller;
 	protected JTextArea inputArea;
