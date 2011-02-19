@@ -17,7 +17,8 @@ public class SpellerFrame extends JFrame {
 
 	public static void main(String[] args) {
 		
-		Speller speller = new SimpleSpeller();
+		SimpleSpeller speller = new SimpleSpeller();
+		speller.addCorrectWord("word");
 		JFrame frame = new SpellerFrame( speller );
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -62,6 +63,14 @@ public class SpellerFrame extends JFrame {
 		this.add(checkBtn);
 		
 		JButton optionsBtn = new JButton("options");
+		optionsBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				openSettings();
+			}
+		});
+		
 		this.add(optionsBtn);	
 		
 		JButton closeBtn = new JButton("close");
@@ -79,6 +88,18 @@ public class SpellerFrame extends JFrame {
 		
 	}
 	
+	protected void openSettings() {
+
+		JFrame frame = new OptionsFrame( );
+		
+		//frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+		frame.pack();
+
+		frame.setVisible(true);	
+		
+	}
+
 	protected void checkText() {
 		boolean isValid = speller.checkText( inputArea.getText() );
 		JOptionPane.showMessageDialog(this,"texts is " + isValid);
