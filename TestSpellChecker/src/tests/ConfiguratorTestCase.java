@@ -1,5 +1,7 @@
 package tests;
 
+import java.util.List;
+
 import com.digitalchaos.spell.Speller;
 import com.digitalchaos.spell.config.SpellerConfig;
 import com.digitalchaos.spell.config.SpellerConfigurator;
@@ -23,7 +25,7 @@ public class ConfiguratorTestCase extends TestCase {
 	{
 		String configName = "test";
 		
-		SpellerConfig expectedConfig = new SpellerConfig(configName);
+		SpellerConfig expectedConfig = createConfig(configName);
 		
 		spellerConfigurator.addConfig( expectedConfig );
 		
@@ -32,16 +34,22 @@ public class ConfiguratorTestCase extends TestCase {
 		assertSame(expectedConfig, actualConfig);
 		
 	}
+
+
+	protected SpellerConfig createConfig(String configName) {
+		return new SpellerConfig(configName);
+	}
 	
 	public void testCreatingSpeller()
 	{
 		String configName = "test";
 		
-		SpellerConfig config = new SpellerConfig(configName);
+		
 		//config.configName = configName;
 		
 		final SimpleSpeller expectedSpeller = new SimpleSpeller();
 		
+		SpellerConfig config = createConfig(configName);
 		config.spellerFactory = new SpellerConfig.SpellerFactory() {
 			
 			@Override
@@ -60,6 +68,22 @@ public class ConfiguratorTestCase extends TestCase {
 		
 	}
 	
+	public void testGettingConfigList()
+	{
+		
+		String[] expectedConfgNames = new String[] { "some1" , "some2"};
+		
+		for (String name : expectedConfgNames) {
+			spellerConfigurator.addConfig( createConfig(name) );
+		}
+		
+		List<String> actualconfNames = spellerConfigurator.getConfigNames();
+		
+		for (String name : expectedConfgNames) {
+			boolean isContain = actualconfNames.contains(name);
+			assertTrue( isContain );
+		}
+	}
 
 	protected void tearDown() throws Exception {
 		super.tearDown();

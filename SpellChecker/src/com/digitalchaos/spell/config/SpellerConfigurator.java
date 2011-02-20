@@ -1,6 +1,10 @@
 package com.digitalchaos.spell.config;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 public class SpellerConfigurator {
@@ -40,6 +44,13 @@ public class SpellerConfigurator {
 			throw new RuntimeException( "cant find default config by name '" + defaultConfigName + "'");
 		
 		return defaultConfig;
+	}
+
+	public List<String> getConfigNames() {
+		Set<String> keys = configs.keySet();
+		String[] keysArr = keys.toArray(new String[keys.size()]);
+		
+		return Arrays.asList(keysArr);
 	}
 
 	
