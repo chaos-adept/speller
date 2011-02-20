@@ -18,4 +18,10 @@ public class YandexSpellerConfig extends SpellerConfig {
 		}
 		
 	}
+
+	@Override
+	public void configurate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

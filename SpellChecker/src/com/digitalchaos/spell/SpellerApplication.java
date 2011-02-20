@@ -45,7 +45,7 @@ public class SpellerApplication {
 	private void constructConfig() {
 		spellerConfig = new SpellerConfigurator();
 
-		SimpleSpellerConfig simpleSpellerConfig = new SimpleSpellerConfig("Simple Speller");
+		SimpleSpellerConfig simpleSpellerConfig = new SimpleSpellerConfig( "Simple Speller", this.frame );
 		spellerConfig.addConfig(simpleSpellerConfig);
 		
 		YandexSpellerConfig yaSpellerConfig = new YandexSpellerConfig("Yandex Speller");

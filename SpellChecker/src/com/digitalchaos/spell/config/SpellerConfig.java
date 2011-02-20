@@ -1,9 +1,9 @@
 package com.digitalchaos.spell.config;
 
 import com.digitalchaos.spell.Speller;
-import com.digitalchaos.spell.config.SpellerConfig.SpellerFactory;
 
-public class SpellerConfig {
+
+public abstract class SpellerConfig {
 
 	public String name;
 	protected SpellerFactory spellerFactory;
@@ -27,6 +27,8 @@ public class SpellerConfig {
 	{
 		public Speller create(SpellerConfig config);
 	}
+
+	public abstract void configurate();
 	
 	
 }
