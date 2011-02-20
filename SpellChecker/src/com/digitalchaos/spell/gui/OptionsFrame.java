@@ -116,7 +116,7 @@ public class OptionsFrame extends JDialog {
 	protected void showAdancedOptions() {
 		String name = String.valueOf( spellersCombo.getSelectedItem() );
 		SpellerConfig spellerConfig = this.spellerConfigurator.getConfig( name );
-		//spellerConfig.configurate();
+		spellerConfig.configurate();
 	}
 
 	protected void closeFrameRequest() {

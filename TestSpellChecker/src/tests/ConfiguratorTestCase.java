@@ -48,8 +48,10 @@ public class ConfiguratorTestCase extends TestCase {
 	}
 
 	protected SpellerConfig createConfig(String configName, SpellerFactory factory) {
-		return new SpellerConfig(configName,factory);
+		return new MockSpellerConfig(configName,factory);
 	}
+	
+	
 	
 	public void testCreatingSpeller()
 	{
@@ -101,4 +103,20 @@ public class ConfiguratorTestCase extends TestCase {
 		super.tearDown();
 	}
 
+	
+	class MockSpellerConfig extends SpellerConfig
+	{
+
+		public MockSpellerConfig(String name, SpellerFactory spellerFactory) {
+			super(name, spellerFactory);
+		}
+
+		@Override
+		public void configurate() {
+			
+			
+		}
+		
+	}
+	
 }
