@@ -1,6 +1,5 @@
 package com.digitalchaos.spell.config;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +37,7 @@ public class SpellerConfigurator {
 		if (defaultConfigName == null)
 			throw new RuntimeException("default config name not defined");
 		
-		SpellerConfig defaultConfig = getConfig(defaultConfigName);
+		SpellerConfig defaultConfig = getConfig( getDefaultConfigName() );
 		
 		if ( defaultConfig == null )
 			throw new RuntimeException( "cant find default config by name '" + defaultConfigName + "'");
@@ -51,6 +50,10 @@ public class SpellerConfigurator {
 		String[] keysArr = keys.toArray(new String[keys.size()]);
 		
 		return Arrays.asList(keysArr);
+	}
+
+	public String getDefaultConfigName() {
+		return defaultConfigName;
 	}
 
 	

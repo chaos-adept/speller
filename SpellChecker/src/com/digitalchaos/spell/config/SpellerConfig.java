@@ -6,16 +6,26 @@ import com.digitalchaos.spell.config.SpellerConfig.SpellerFactory;
 public class SpellerConfig {
 
 	public String name;
-	public SpellerFactory spellerFactory;
+	protected SpellerFactory spellerFactory;
 	
-	public SpellerConfig(String name)
+	public SpellerConfig(String name, SpellerFactory spellerFactory)
 	{
 		this.name = name;
+		this.spellerFactory = (spellerFactory);
+	}
+
+	protected SpellerFactory getSpellerFactory() {
+		return spellerFactory;
+	}
+
+	public Speller constructSpeller()
+	{
+		return getSpellerFactory().create(this);
 	}
 	
 	public interface SpellerFactory
 	{
-		public Speller create();
+		public Speller create(SpellerConfig config);
 	}
 	
 	

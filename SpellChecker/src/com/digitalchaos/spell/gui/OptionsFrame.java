@@ -12,9 +12,13 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import com.digitalchaos.spell.config.SpellerConfig;
+import com.digitalchaos.spell.config.SpellerConfigurator;
 
 /**
 * This code was edited or generated using CloudGarden's Jigloo
@@ -28,18 +32,24 @@ import javax.swing.JPanel;
 * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
-public class OptionsFrame extends JFrame {
+public class OptionsFrame extends JDialog {
 	private JPanel buttonsPanel;
 	private JPanel selectingPanel;
 	private JLabel spellsNames;
 	private JComboBox spellersCombo;
 	private JButton advancedBtn;
 
-	public OptionsFrame() throws HeadlessException {
+	SpellerConfigurator spellerConfigurator;
+	
+	public OptionsFrame( JFrame parent , SpellerConfigurator spellerConfigurator) throws HeadlessException {
 		
 		//JCheckBox cacheChecker = new JCheckBox("use cache");
 		//this.add(cacheChecker);
 
+		super(parent);
+		
+		this.spellerConfigurator = spellerConfigurator;
+		
 		BoxLayout thisLayout = new BoxLayout(getContentPane(), javax.swing.BoxLayout.Y_AXIS);
 		getContentPane().setLayout(thisLayout);
 		{
@@ -53,7 +63,9 @@ public class OptionsFrame extends JFrame {
 			{
 				ComboBoxModel spellersComboModel = 
 					new DefaultComboBoxModel(
-							new String[] { "Item One", "Item Two" });
+							spellerConfigurator.getConfigNames().toArray() );
+				
+				spellersComboModel.setSelectedItem(spellerConfigurator.getDefaultConfigName());
 				spellersCombo = new JComboBox();
 				selectingPanel.add(spellersCombo);
 				spellersCombo.setModel(spellersComboModel);
@@ -62,6 +74,11 @@ public class OptionsFrame extends JFrame {
 				advancedBtn = new JButton();
 				selectingPanel.add(advancedBtn);
 				advancedBtn.setText("advanced");
+				advancedBtn.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent evt) {
+						showAdancedOptions();
+					}
+				});
 			}
 		}
 		{
@@ -96,7 +113,17 @@ public class OptionsFrame extends JFrame {
 		//closeBtn.setBounds(0, 0, 116, 23);
 	}
 
+	protected void showAdancedOptions() {
+		String name = String.valueOf( spellersCombo.getSelectedItem() );
+		SpellerConfig spellerConfig = this.spellerConfigurator.getConfig( name );
+		//spellerConfig.configurate();
+	}
+
 	protected void closeFrameRequest() {
+		
+		String name = String.valueOf( spellersCombo.getSelectedItem() );
+		spellerConfigurator.setDefaultConfig(name);
+		
 		this.setVisible(false);
 		
 		this.dispose();

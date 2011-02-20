@@ -5,12 +5,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
 import com.digitalchaos.spell.Speller;
+import com.digitalchaos.spell.config.SpellerConfigurator;
 
 public class SpellerFrame extends JFrame {
 
@@ -18,11 +20,12 @@ public class SpellerFrame extends JFrame {
 	
 	Speller speller;
 	protected JTextArea inputArea;
-
-	public SpellerFrame(Speller speller) {
+	protected SpellerConfigurator spellerConfig;
+	public SpellerFrame(Speller speller, SpellerConfigurator spellerConfig) {
 		
 		//JFrame.setDefaultLookAndFeelDecorated(true);
 		this.speller = speller;
+		this.spellerConfig = spellerConfig;
 		
 		this.setTitle("Speller");
 
@@ -77,13 +80,18 @@ public class SpellerFrame extends JFrame {
 	
 	protected void openSettings() {
 
-		JFrame frame = new OptionsFrame( );
+		JDialog optionsDialog = new OptionsFrame( this , this.spellerConfig );
 		
 		//frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		optionsDialog.setModal(true);
+		optionsDialog.pack();
 
-		frame.pack();
-
-		frame.setVisible(true);	
+		optionsDialog.setVisible(true);	
+		
+		
+		
+		//TODO надо бы по хорошему спеллер вообще убрать из этого фрейма и сделать дата хелпер к которому он будет делать запросы
+		speller = spellerConfig.getDefaultConfig().constructSpeller();
 		
 	}
 
