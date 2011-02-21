@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 
 import com.digitalchaos.cache.Cache;
 import com.digitalchaos.cache.CacheFactories;
+import com.digitalchaos.cache.CacheFactory;
 import com.digitalchaos.cache.CacheOptions;
 import com.digitalchaos.cache.nullcache.NullCache;
 import com.digitalchaos.spell.Speller;
@@ -44,7 +45,8 @@ public class YandexSpellerConfig extends SpellerConfig {
 			}
 			else
 				{
-					Cache cache = this.factories.getFactory(yaConfig.name).create(yaConfig.cacheOptions);
+					CacheFactory cacheFactory = this.factories.getFactory(yaConfig.cacheOptions.providerName);
+					Cache cache = cacheFactory.create(yaConfig.cacheOptions);
 					CachedSpeller cachedSpeller = new CachedSpeller(yaSpeller, cache);
 					return cachedSpeller;
 				}

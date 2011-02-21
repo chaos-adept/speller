@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.digitalchaos.cache.ehcache.EhCacheFactory;
 import com.digitalchaos.cache.nullcache.NullCache;
 import com.digitalchaos.cache.plaincache.PlainCache;
 
@@ -63,6 +64,8 @@ public class CacheFactories
 			}			
 			
 		});
+		
+		registryCacheFactory("EhCache", new EhCacheFactory());
 		
 	}
 	
