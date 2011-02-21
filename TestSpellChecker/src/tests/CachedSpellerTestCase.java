@@ -13,14 +13,19 @@ public class CachedSpellerTestCase extends SpellerTestCase {
 	
 	@Override
 	protected Speller createSpeller() {
-		
-		SimpleSpeller adaptee = new SimpleSpeller();
-		adaptee.addCorrectWord(correntWord);
-		
+		Speller adaptee = createAdapteeSpeller();
 		mockCache = new CachedSpellerTestCase.MockCache();
 		CachedSpeller speller = new CachedSpeller(adaptee, mockCache);
 		
 		return speller;
+	}
+	
+	protected Speller createAdapteeSpeller()
+	{
+		SimpleSpeller adaptee = new SimpleSpeller();
+		adaptee.addCorrectWord(correntWord);
+		return adaptee;
+		
 	}
 	
 	public void testCacheRequesting()

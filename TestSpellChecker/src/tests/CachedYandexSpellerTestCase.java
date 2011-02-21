@@ -6,18 +6,12 @@ import com.digitalchaos.spell.Speller;
 import com.digitalchaos.spell.spellers.yandexspeller.YandexSpeller;
 import com.digitalchaos.spell.utils.CachedSpeller;
 
-public class CachedYandexSpellerTestCase extends YandexSpellerTestCase {
+public class CachedYandexSpellerTestCase extends CachedSpellerTestCase {
 	
 	@Override
-	protected Speller createSpeller() {
-		YandexSpeller yaSpeller = (YandexSpeller) super.createSpeller();
-		
-		NullCache nullCache = new NullCache();
-		
-		CachedSpeller cachedSpeller = new CachedSpeller( yaSpeller , nullCache );
-		return cachedSpeller;
+	protected Speller createAdapteeSpeller() {
+		return new YandexSpeller();
 	}
-	
 	
 
 }
