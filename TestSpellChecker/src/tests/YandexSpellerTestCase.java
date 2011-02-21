@@ -7,8 +7,6 @@ public class YandexSpellerTestCase extends SpellerTestCase {
 
 	@Override
 	protected Speller createSpeller() {
-		
-		
 		return new YandexSpeller();
 	}
 
