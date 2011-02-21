@@ -11,3 +11,4 @@ log/
 .project
 .settings
 build
+*.class
