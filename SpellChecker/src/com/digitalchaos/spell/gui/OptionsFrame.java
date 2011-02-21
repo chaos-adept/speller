@@ -88,18 +88,7 @@ public class OptionsFrame extends JDialog {
 			buttonsPanel.setLayout(buttonsPanelLayout);
 			getContentPane().add(buttonsPanel);
 			{
-				JButton acceptBtn = new JButton("accept");
-				buttonsPanel.add(acceptBtn);
-				acceptBtn.addActionListener(new ActionListener() {
-					
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						closeFrameRequest();
-					}
-				});
-			}
-			{
-				JButton closeBtn = new JButton("close");
+				JButton closeBtn = new JButton("OK");
 				buttonsPanel.add(closeBtn);
 				closeBtn.addActionListener(new ActionListener() {
 					
