@@ -2,6 +2,7 @@ package com.digitalchaos.spell;
 
 import javax.swing.JFrame;
 
+import com.digitalchaos.cache.CacheFactories;
 import com.digitalchaos.spell.config.SpellerConfig;
 import com.digitalchaos.spell.config.SpellerConfig.SpellerFactory;
 import com.digitalchaos.spell.config.SpellerConfigurator;
@@ -48,7 +49,7 @@ public class SpellerApplication {
 		SimpleSpellerConfig simpleSpellerConfig = new SimpleSpellerConfig( "Simple Speller", this.frame );
 		spellerConfig.addConfig(simpleSpellerConfig);
 		
-		YandexSpellerConfig yaSpellerConfig = new YandexSpellerConfig("Yandex Speller");
+		YandexSpellerConfig yaSpellerConfig = new YandexSpellerConfig("Yandex Speller", new CacheFactories());
 		spellerConfig.addConfig(yaSpellerConfig);
 		
 		spellerConfig.setDefaultConfig(yaSpellerConfig.name);

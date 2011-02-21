@@ -3,6 +3,7 @@ package com.digitalchaos.spell.spellers.yandexspeller.config;
 import javax.swing.JFrame;
 
 import com.digitalchaos.cache.Cache;
+import com.digitalchaos.cache.CacheFactories;
 import com.digitalchaos.cache.CacheOptions;
 import com.digitalchaos.cache.nullcache.NullCache;
 import com.digitalchaos.spell.Speller;
@@ -14,30 +15,37 @@ import com.digitalchaos.spell.utils.CachedSpeller;
 public class YandexSpellerConfig extends SpellerConfig {
 
 	public boolean isCacheEnabled;
-	public CacheOptions cacheOptions;	
+	public CacheOptions cacheOptions;
 	
+	protected CacheFactories factories;	
 	
-	public YandexSpellerConfig(String name) {
-		super(name, new YandexSpellerFactory());
+	public YandexSpellerConfig(String name, CacheFactories factories) {
+		super(name, new YandexSpellerFactory(factories));
+		this.factories = factories;
 	}
 	
 	static class YandexSpellerFactory implements SpellerFactory
 	{
+		protected CacheFactories factories;
+		
+		public YandexSpellerFactory(CacheFactories factories) {
+			this.factories = factories;
+		}
+
 		@Override
 		public Speller create(SpellerConfig config) {
+			
 			YandexSpellerConfig yaConfig = (YandexSpellerConfig) config;
 			YandexSpeller yaSpeller = new YandexSpeller();
 			
 			if ( ! yaConfig.isCacheEnabled )
 			{
-				
 				return yaSpeller;
 			}
 			else
 				{
-					
-					Cache cache = new NullCache();
-					CachedSpeller cachedSpeller = new CachedSpeller(yaSpeller, cache  );
+					Cache cache = this.factories.getFactory(yaConfig.name).create(yaConfig.cacheOptions);
+					CachedSpeller cachedSpeller = new CachedSpeller(yaSpeller, cache);
 					return cachedSpeller;
 				}
 			
@@ -46,7 +54,10 @@ public class YandexSpellerConfig extends SpellerConfig {
 	
 	@Override
 	public void configurate() {
-		YandexSpellerOptionsDialog dialog = new YandexSpellerOptionsDialog();
+		
+		
+		
+		YandexSpellerOptionsDialog dialog = new YandexSpellerOptionsDialog(factories);
 		dialog.setModal(true);
 		
 		dialog.setCacheEnabled(isCacheEnabled);
@@ -54,6 +65,9 @@ public class YandexSpellerConfig extends SpellerConfig {
 		dialog.setVisible(true);
 		
 		this.isCacheEnabled = dialog.isCacheEnabled();
+		this.cacheOptions = dialog.genCacheOptions();
+		
+		
 		
 		dialog.dispose();
 		

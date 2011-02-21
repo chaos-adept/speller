@@ -17,7 +17,6 @@ public class CacheTestCase extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		cacheOptions = new CacheOptions();
-		cacheOptions.maxElements = 0;
 		cache = new NullCache();
 	}
 
@@ -37,7 +36,7 @@ public class CacheTestCase extends TestCase {
 			assertSame(expected, actual);
 		}
 	}
-	
+	/*
 	public void testMaxElements()
 	{
 		ArrayList<Object> expecteds = new ArrayList<Object>();
@@ -60,7 +59,7 @@ public class CacheTestCase extends TestCase {
 			assertSame(value, actual);
 		}
 		
-	}
+	} */
 
 	public class MockCacheItem implements Serializable
 	{
