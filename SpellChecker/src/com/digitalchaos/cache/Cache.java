@@ -8,4 +8,6 @@ public interface Cache {
 
 	Object get(Object key);
 
+	boolean isEmpty();
+	
 }

@@ -66,6 +66,11 @@ public class CachedSpellerTestCase extends SpellerTestCase {
 			
 			return null;
 		}
+
+		@Override
+		public boolean isEmpty() {
+			return false;
+		}
 		
 	}
 
