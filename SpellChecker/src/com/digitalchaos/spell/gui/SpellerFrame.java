@@ -97,7 +97,7 @@ public class SpellerFrame extends JFrame {
 
 	protected void checkText() {
 		boolean isValid = speller.checkText( inputArea.getText() );
-		JOptionPane.showMessageDialog(this,"texts is " + isValid);
+		JOptionPane.showMessageDialog(this,"text checked: " + isValid);
 	}	
 	
 	protected void closeFrameRequest() {

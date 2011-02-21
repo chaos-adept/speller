@@ -51,7 +51,7 @@ public class SpellerApplication {
 		YandexSpellerConfig yaSpellerConfig = new YandexSpellerConfig("Yandex Speller");
 		spellerConfig.addConfig(yaSpellerConfig);
 		
-		spellerConfig.setDefaultConfig(simpleSpellerConfig.name);
+		spellerConfig.setDefaultConfig(yaSpellerConfig.name);
 	}
 
 	private Speller createDefaultSpeller() {
