@@ -61,6 +61,7 @@ public class YandexSpellerConfig extends SpellerConfig {
 		dialog.setModal(true);
 		
 		dialog.setCacheEnabled(isCacheEnabled);
+		dialog.setCacheOptions(cacheOptions);
 		dialog.pack();
 		dialog.setVisible(true);
 		

@@ -23,6 +23,11 @@ public class CacheFactories
 			public Cache create(CacheOptions options) {
 				return new NullCache();
 			}
+
+			@Override
+			public boolean isCanBeLimited() {
+				return false;
+			}
 		});
 		
 		registryCacheFactory("Plain cache", new CacheFactory() {
@@ -31,11 +36,16 @@ public class CacheFactories
 			public Cache create(CacheOptions options) {
 				return new PlainCache(options);
 			}
+
+			@Override
+			public boolean isCanBeLimited() {
+				return false;
+			}
 		});
 		
 	}
 	
-	protected void registryCacheFactory( String name , CacheFactory factory )
+	public void registryCacheFactory( String name , CacheFactory factory )
 	{
 		registry.put(name, factory);
 	}
