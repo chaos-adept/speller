@@ -1,0 +1,3 @@
+﻿
+ant run
+PAUSE
