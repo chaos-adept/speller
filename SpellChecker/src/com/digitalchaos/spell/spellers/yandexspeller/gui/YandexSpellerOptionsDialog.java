@@ -77,12 +77,22 @@ public class YandexSpellerOptionsDialog extends JDialog {
 				}
 			}
 			
-			getEnablingPanel();
+
+			providerComboBox = new JComboBox();
+
+			cachePanel.add(getEnablingPanel());
+			cachePanel.add(getProviderPanel());
+			cachePanel.add(getMemoryManagmentPanel());
+			cachePanel.add(getMaxDiskElCountPanel());
+			cachePanel.add(getDiskMangrAlgPanel());
+			cachePanel.add(getMaxSizePanel());
+
+				
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
-	protected void onCahngedProviderValue() {
+	protected void onChangedProviderValue() {
 		Object newValue = this.providerComboBox.getSelectedItem();
 	 	CacheFactory cacheFactory = cacheFactories.getFactory(String.valueOf(newValue));
 		
@@ -91,8 +101,18 @@ public class YandexSpellerOptionsDialog extends JDialog {
 	 		return;
 	 	}
 	 	
-	 	maxCountSpinner.setEnabled( cacheFactory.isCanBeLimited() );
+	 	this.memMangrComboModel.removeAllElements();
+	 	for (String name : cacheFactory.getMemoryManagmentAlgorithmNames()) {
+	 		this.memMangrComboModel.addElement(name);
+		}
 	 	
+	 	this.diskManagrAlgthComboModel.removeAllElements();
+	 	for (String name : cacheFactory.getDiskManagmentAlgorithmNames()) {
+	 		this.diskManagrAlgthComboModel.addElement(name);
+		}
+	 	
+	 	maxCountSpinner.setEnabled( cacheFactory.isCanBeLimited() );
+	 	maxDiskElCountSpinner.setEnabled( cacheFactory.isCanBeLimited() );
 	}
 
 	protected void close() {
@@ -102,6 +122,15 @@ public class YandexSpellerOptionsDialog extends JDialog {
 	private JPanel actionsPanel;
 	private JPanel cachePanel;
 	private JButton okBtn;
+	private JComboBox diskManagrAlgthCombo;
+	private JLabel diskMagrAlgLabel;
+	private JPanel diskMangrAlgPanel;
+	private JSpinner maxDiskElCountSpinner;
+	private JLabel maxDiskElCountLabel;
+	private JPanel maxDiskElCountPanel;
+	private JComboBox memMangrCombo;
+	private JLabel memoryMangLabel;
+	private JPanel memoryManagmentPanel;
 	private JPanel enablingPanel;
 	private JLabel providerLabel;
 	private JPanel providerPanel;
@@ -110,6 +139,8 @@ public class YandexSpellerOptionsDialog extends JDialog {
 	private JSpinner maxCountSpinner;
 	private JComboBox providerComboBox;
 	private JCheckBox useCacheCheckBox;
+	protected DefaultComboBoxModel memMangrComboModel;
+	protected DefaultComboBoxModel diskManagrAlgthComboModel;
 
 	public boolean isCacheEnabled()
 	{
@@ -124,20 +155,35 @@ public class YandexSpellerOptionsDialog extends JDialog {
 	public void setCacheOptions(CacheOptions options)
 	{
 		if (options == null)
+		{
+			this.providerComboBox.setSelectedIndex(0);
 			return;
+		}
+			
 		
 		this.providerComboBox.setSelectedItem(options.providerName);
 		
-		this.maxCountSpinner.setValue( options.maxElementCount );
+		this.maxCountSpinner.setValue( options.maxMemoryElementCount );
+		this.maxDiskElCountSpinner.setValue( options.maxMemoryElementCount );
 		
-		onCahngedProviderValue();
+		onChangedProviderValue();
+		
+		this.memMangrCombo.setSelectedItem( options.diskManagmentAlgorithName );
+		
+		this.diskManagrAlgthCombo.setSelectedItem( options.diskManagmentAlgorithName );
+		
+		
+		
 	}
 	
 	public CacheOptions genCacheOptions()
 	{
 		CacheOptions cacheOptions = new CacheOptions();
-		cacheOptions.maxElementCount = (Integer) this.maxCountSpinner.getValue();
 		cacheOptions.providerName = (String) this.providerComboBox.getSelectedItem();
+		cacheOptions.maxMemoryElementCount = (Integer) this.maxCountSpinner.getValue();
+		cacheOptions.maxDiskElementCount = (Integer) this.maxDiskElCountSpinner.getValue();
+		cacheOptions.memoryManagmentAlgorithmName = (String) this.memMangrCombo.getSelectedItem();
+		cacheOptions.diskManagmentAlgorithName = (String) this.diskManagrAlgthCombo.getSelectedItem();
 		return cacheOptions;
 	}
 	
@@ -174,37 +220,37 @@ public class YandexSpellerOptionsDialog extends JDialog {
 	private JLabel getMaxSizeLabel() {
 		if(maxSizeLabel == null) {
 			maxSizeLabel = new JLabel();
-			maxSizeLabel.setText("maxsize");
+			maxSizeLabel.setText("max memory elements count");
 		}
 		return maxSizeLabel;
 	}
 	
 	private JPanel getProviderPanel() {
-		if(providerPanel == null) {
+
+		if ( providerPanel == null )
+		{
 			providerPanel = new JPanel();
 			GridLayout providerPanelLayout = new GridLayout(1, 1);
 			providerPanelLayout.setHgap(5);
 			providerPanelLayout.setVgap(5);
 			providerPanelLayout.setColumns(1);
 			providerPanel.setLayout(providerPanelLayout);
-			{
-				ComboBoxModel providerComboBoxModel = 
-					new DefaultComboBoxModel(
-							cacheFactories.getCacheProviders() );
-				providerComboBox = new JComboBox();
-				providerPanel.add(getProviderLabel());
-				providerPanel.add(providerComboBox);
-				cachePanel.add(getEnablingPanel());
-				cachePanel.add(getProviderPanel());
-				cachePanel.add(getMaxSizePanel());
-				providerComboBox.setModel(providerComboBoxModel);
-				providerComboBox.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent evt) {
-						onCahngedProviderValue();
-					}
-				});
-				
-			}
+			
+			
+			ComboBoxModel providerComboBoxModel = 
+				new DefaultComboBoxModel(
+						cacheFactories.getCacheProviders() );			
+			providerComboBox = new JComboBox(providerComboBoxModel);
+			providerComboBox.setModel(providerComboBoxModel);
+			providerComboBox.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent evt) {
+					onChangedProviderValue();
+				}
+			});		
+			
+			providerPanel.add(getProviderLabel());
+			providerPanel.add(providerComboBox);			
+			
 		}
 		return providerPanel;
 	}
@@ -213,6 +259,9 @@ public class YandexSpellerOptionsDialog extends JDialog {
 		if(providerLabel == null) {
 			providerLabel = new JLabel();
 			providerLabel.setText("cache provider");
+			
+		
+			
 		}
 		return providerLabel;
 	}
@@ -230,6 +279,104 @@ public class YandexSpellerOptionsDialog extends JDialog {
 			}
 		}
 		return enablingPanel;
+	}
+	
+	private JPanel getMemoryManagmentPanel() {
+		if(memoryManagmentPanel == null) {
+			memoryManagmentPanel = new JPanel();
+			GridLayout memoryManagmentPanelLayout = new GridLayout(1, 1);
+			memoryManagmentPanelLayout.setHgap(5);
+			memoryManagmentPanelLayout.setVgap(5);
+			memoryManagmentPanelLayout.setColumns(1);
+			memoryManagmentPanel.setLayout(memoryManagmentPanelLayout);
+			memoryManagmentPanel.add(getMemoryMangLabel());
+			memoryManagmentPanel.add(getMemMangrCombo());
+		}
+		return memoryManagmentPanel;
+	}
+	
+	private JLabel getMemoryMangLabel() {
+		if(memoryMangLabel == null) {
+			memoryMangLabel = new JLabel();
+			memoryMangLabel.setText("memory management algorithm");
+		}
+		return memoryMangLabel;
+	}
+	
+	private JComboBox getMemMangrCombo() {
+		if(memMangrCombo == null) {
+			memMangrComboModel = new DefaultComboBoxModel(
+					new String[] { "Item One", "Item Two" });
+			memMangrCombo = new JComboBox();
+			memMangrCombo.setModel(memMangrComboModel);
+		}
+		return memMangrCombo;
+	}
+	
+	private JPanel getMaxDiskElCountPanel() {
+		if(maxDiskElCountPanel == null) {
+			maxDiskElCountPanel = new JPanel();
+			GridLayout maxDiskElCountPanelLayout = new GridLayout(1, 1);
+			maxDiskElCountPanelLayout.setHgap(5);
+			maxDiskElCountPanelLayout.setVgap(5);
+			maxDiskElCountPanelLayout.setColumns(1);
+			maxDiskElCountPanel.setLayout(maxDiskElCountPanelLayout);
+			maxDiskElCountPanel.add(getMaxDiskElCountLabel());
+			maxDiskElCountPanel.add(getMaxDiskElCountSpinner());
+		}
+		return maxDiskElCountPanel;
+	}
+	
+	private JLabel getMaxDiskElCountLabel() {
+		if(maxDiskElCountLabel == null) {
+			maxDiskElCountLabel = new JLabel();
+			maxDiskElCountLabel.setText("max disk element count");
+		}
+		return maxDiskElCountLabel;
+	}
+	
+	private JSpinner getMaxDiskElCountSpinner() {
+		if(maxDiskElCountSpinner == null) {
+			SpinnerNumberModel maxDiskElCountSpinnerModel = 
+				new SpinnerNumberModel(
+						);
+			maxDiskElCountSpinnerModel.setMinimum(0);
+			maxDiskElCountSpinner = new JSpinner();
+			maxDiskElCountSpinner.setModel(maxDiskElCountSpinnerModel);
+		}
+		return maxDiskElCountSpinner;
+	}
+	
+	private JPanel getDiskMangrAlgPanel() {
+		if(diskMangrAlgPanel == null) {
+			diskMangrAlgPanel = new JPanel();
+			GridLayout diskMangrAlgPanelLayout = new GridLayout(1, 1);
+			diskMangrAlgPanelLayout.setHgap(5);
+			diskMangrAlgPanelLayout.setVgap(5);
+			diskMangrAlgPanelLayout.setColumns(1);
+			diskMangrAlgPanel.setLayout(diskMangrAlgPanelLayout);
+			diskMangrAlgPanel.add(getDiskMagrAlgLabel());
+			diskMangrAlgPanel.add(getDiskManagrAlgthCombo());
+		}
+		return diskMangrAlgPanel;
+	}
+	
+	private JLabel getDiskMagrAlgLabel() {
+		if(diskMagrAlgLabel == null) {
+			diskMagrAlgLabel = new JLabel();
+			diskMagrAlgLabel.setText("disk managment algorithm");
+		}
+		return diskMagrAlgLabel;
+	}
+	
+	private JComboBox getDiskManagrAlgthCombo() {
+		if(diskManagrAlgthCombo == null) {
+			diskManagrAlgthComboModel = new DefaultComboBoxModel(
+					new String[] { "Item One", "Item Two" });
+			diskManagrAlgthCombo = new JComboBox();
+			diskManagrAlgthCombo.setModel(diskManagrAlgthComboModel);
+		}
+		return diskManagrAlgthCombo;
 	}
 
 }

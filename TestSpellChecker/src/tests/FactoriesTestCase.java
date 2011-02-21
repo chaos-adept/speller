@@ -50,6 +50,18 @@ public class FactoriesTestCase extends TestCase {
 			// TODO Auto-generated method stub
 			return false;
 		}
+
+		@Override
+		public String[] getMemoryManagmentAlgorithmNames() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public String[] getDiskManagmentAlgorithmNames() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 		
 	}
 

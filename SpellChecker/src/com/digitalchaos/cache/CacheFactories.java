@@ -28,6 +28,16 @@ public class CacheFactories
 			public boolean isCanBeLimited() {
 				return false;
 			}
+
+			@Override
+			public String[] getMemoryManagmentAlgorithmNames() {
+				return new String[] {"none"};
+			}
+
+			@Override
+			public String[] getDiskManagmentAlgorithmNames() {
+				return new String[] {"none"};
+			}
 		});
 		
 		registryCacheFactory("Plain cache", new CacheFactory() {
@@ -41,6 +51,17 @@ public class CacheFactories
 			public boolean isCanBeLimited() {
 				return false;
 			}
+			
+			@Override
+			public String[] getMemoryManagmentAlgorithmNames() {
+				return new String[] {"none"};
+			}
+
+			@Override
+			public String[] getDiskManagmentAlgorithmNames() {
+				return new String[] {"none"};
+			}			
+			
 		});
 		
 	}
